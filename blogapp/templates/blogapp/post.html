@@ -1,0 +1,21 @@
+{% block post %}
+	<section class="blog-post">
+		<div class="blog-post-outline">
+			<div class="blog-post-container">
+				<div class="blog-post-header">
+					<h3><a href="{{ page.url }}">{{ page.title }}</a></h3>
+					<span class="blog-info-line">
+						<time datetime="{{ page.date|date:"%F" }}">{{ page.date|date:"%b %d, %Y" }}</time> 
+						<a href="{{ page.url }}#disqus_thread"></a>
+					</span>
+					<!-- <span class="blog-info-line">filed under {{ categories | category_links }}</span><br/><br/> -->
+				</div>
+				<article>
+					<div class="blog-post-content">
+						{{ content }}
+					</div>
+				</article>
+			</div>
+		</div>
+	</section>
+{% block post %}

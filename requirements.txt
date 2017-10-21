@@ -1,1 +1,4 @@
 django==1.11.6
+libsass==0.13.3
+django_compressor==2.2
+django-sass-processor==0.5.5

@@ -1,0 +1,9 @@
+{% extends "blogapp/base.html" %}
+
+{% block list_posts %}
+	<h2>This is a list fam</h2>
+	{% for post in posts %}
+		{% block post %}
+		{% endblock %}
+	{% endfor %}
+{% endblock %}

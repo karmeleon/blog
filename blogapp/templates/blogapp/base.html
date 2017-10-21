@@ -1,0 +1,45 @@
+{% load sass_tags %}
+
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="shortcut icon" type="image/png" href="/assets/favicon.png"/>
+		<!-- for the three people on Earth who use RSS -->
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml"/>
+		<title>{% if page.title %} {{ page.title }} | {% endif %} {{ site.name }}</title>
+		<!-- Color used in Chrome for Android -->
+		<meta name="theme-color" content="#808080">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- stylesheets -->
+		<link href='https://fonts.googleapis.com/css?family=Khand:400,600' rel='stylesheet' type='text/css'>
+		<link href="{% sass_src 'blogapp/scss/site.scss' %}" type="text/css" rel="stylesheet">
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-60113999-1', 'auto');
+			ga('send', 'pageview');
+		</script>
+		<!-- TODO: SEO stuff -->
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">Blog.</a></h1>
+			<h2>A blog where I talk about code things.</h2>
+		</header>
+		<div class="main-container">
+			<div class="content-col">
+				{% block list_posts %}
+				{% endblock %}
+			</div>
+			<aside class="sidebar-col">
+				<div class="sidebar-outline">
+					<div class="sidebar-content">
+						<!-- sidebar -->
+					</div>
+				</div>
+			</aside>
+		</div>
+	</body>
+</html>

@@ -7,3 +7,7 @@ Yep, that's a blog alright!
 
 1. Install Python 3.6. We'll assume it's the `python` executable from here on out.
 2. 
+
+# Dev Deploy
+
+# Prod Deploy
