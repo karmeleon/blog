@@ -2,3 +2,5 @@ django==1.11.6
 libsass==0.13.3
 django_compressor==2.2
 django-sass-processor==0.5.5
+markdown==2.6.9
+python-frontmatter==0.2.1

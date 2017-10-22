@@ -1,3 +1,5 @@
+{% load markdownify %}
+
 {% block post %}
 	<section class="blog-post">
 		<div class="blog-post-outline">
@@ -12,7 +14,7 @@
 				</div>
 				<article>
 					<div class="blog-post-content">
-						{{ content }}
+						{{ content | markdownify | safe }}
 					</div>
 				</article>
 			</div>
