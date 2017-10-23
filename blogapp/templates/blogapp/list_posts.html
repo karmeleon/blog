@@ -1,9 +1,8 @@
 {% extends "blogapp/base.html" %}
+{% load render_preview %}
 
-{% block list_posts %}
-	<h2>This is a list fam</h2>
+{% block main_content %}
 	{% for post in posts %}
-		{% block post %}
-		{% endblock %}
+		{% render_preview post %}
 	{% endfor %}
 {% endblock %}

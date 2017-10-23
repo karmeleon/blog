@@ -13,19 +13,18 @@ Understanding Dependencies
 
 One of Knockout's most powerful features is its automatic dependency tracking. You can read the full, official documentation on it [here](http://knockoutjs.com/documentation/computed-dependency-tracking.html), but the TL;DR is that when you declare a computed observable, the framework keeps track of all other observables (computed and otherwise) that the computed accesses. Whenever one of these dependencies changes value, all observables that depend on it automatically reevaluate their value. This method is very robust and works well, but carelessly-written computed observables can end up reevaluating themselves much more than necessary and dragging your app's performance down with it. Take the following code, for example:
 
-{% highlight javascript %}
-var currentTime = ko.observable(new Date());
+	::javascript
+	var currentTime = ko.observable(new Date());
 
-setTimeout(function() {
-	currentTime(new Date());
-}, 100);
+	setTimeout(function() {
+		currentTime(new Date());
+	}, 100);
 
-var something = ko.computed(function() {
-	var result = someDifficultCalculation()
+	var something = ko.computed(function() {
+		var result = someDifficultCalculation()
 
-	return 'LOG: [' + currentTime() + '] calculation result is ' + result;
-}, this);
-{% endhighlight %}
+		return 'LOG: [' + currentTime() + '] calculation result is ' + result;
+	}, this);
 
 The intended use of `something` here is to run a calculation based on some user input and dump the result along with a timestamp to an output box. But since the computed observable accesses `currentTime`, which is updated ten times a second, the browser tab would be perpetually frozen as the JavaScript engine tries to run the difficult calculation over and over. Other than the obvious solution of simply reading the time with `new Date()` once the calculation finishes, the `currentTime()` call could be replaced with `currentTime.peek()`, which returns the value of the observable without marking it as a dependency. Another option would be to simply make `currentTime` a plain old JavaScript object rather than an observable, thus avoiding dependency tracking pitfalls altogether. Another way to reduce dependency headaches when using computed observables is...
 
@@ -49,27 +48,26 @@ We're Not Cavemen, We Have Technology
 
 You can stare at your code all day, diagramming out every last dependency and converting everything you can to pure computed observables, but at the end of the day application response time is what you really care about. Happily, Chrome's developer tools are extremely powerful and can help you figure out why that simple button press is taking ten seconds to update a simple block of text!
 
-![Behold, the profiler view!](/assets/KnockoutPerf/devtools.png)
+![Behold, the profiler view!](/static/img/KnockoutPerf/devtools.png)
 
 Behold, the profiler view! This unassuming screen allows you to see exactly what your app's call stack looks like, millisecond by millisecond!
 
-![Behold, the chart view!](/assets/KnockoutPerf/timeline.png)
+![Behold, the chart view!](/static/img/KnockoutPerf/timeline.png)
 
 Start the profiler, do whatever you want, then stop it and change the view to the chart view with the dropdown at the top of the window. You can see exactly what functions are running, when, and how long they took. You can also click on each of those colorful little boxes to see where in the code that function is. The bottom-up view shows you which functions ran for the most time total, useful for deciding which functions to optimize first. You should be able to get a good idea of what Knockout's doing by looking at the function names on the chart, but sometimes you want to see exactly when something of interest is being executed. Unfortunately, [`console.timeStamp()`](https://developer.chrome.com/devtools/docs/console-api#consoletimestamplabel) only works in the Timeline view, so we'll have to be a little more clever to mark up the profiler chart. Instead, we need deep recursion (to make a big spike) and it has to take long enough for Chrome to realize it's happening. Copy/pasting something like this before and after a line of interest should generate an obvious shape in the resulting chart:
 
-{% highlight javascript %}
-var mark = function(depth) {
-	if(depth == 0) {
-		var j = 0;
-		for(var i = 0; i < 1000000; i++)
-			j++;
-		// log it so the loop doesn't get optimized out
-		console.log(j);
-	} else {
-		mark(depth - 1)
+	:::javascript
+	var mark = function(depth) {
+		if(depth == 0) {
+			var j = 0;
+			for(var i = 0; i < 1000000; i++)
+				j++;
+			// log it so the loop doesn't get optimized out
+			console.log(j);
+		} else {
+			mark(depth - 1)
+		}
 	}
-}
-{% endhighlight %}
 
 It goes without saying that this is a horrible, hacky way to do things, but it's the only way at this time. Just be careful to remove this code as soon as you're done profiling your app.
 
@@ -78,11 +76,10 @@ Miscellaneous Binding Tips
 
 I've recently come across two confusing bindings in TigerText that were causing some severe performance issues and have easy fixes. The first is the `afterRender` property of the `foreach` binding. At first glance it sounds like it's a function that Knockout runs after it finishes rendering every part of the `foreach` binding, when in reality it runs _after each individual element renders_. So this binding will run `doSomething()` `things().length` times:
 
-{% highlight html %}
-<div data-bind="foreach: {data: things, afterRender: doSomething()}">
-	...
-</div>
-{% endhighlight %}
+	:::html
+	<div data-bind="foreach: {data: things, afterRender: doSomething()}">
+		...
+	</div>
 
 Needless to say, unless `doSomething()` is trivial, using the `afterRender` property will cause your app to chug like no other when rendering lists. Be very careful when using it. Consider subscribing to the underlying observable array instead, which will only result in one callback per change to the array. On a related note, make sure that when you add or remove multiple elements in an observable array, you do them all at once with `splice` or by setting the observable array to a new array object rather than doing a large number of `push` or `pop` calls. This causes subscribers to the array to only be notified of changes once rather than potentially hundreds.
 

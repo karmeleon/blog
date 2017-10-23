@@ -6,4 +6,8 @@ register = template.Library()
 @register.filter
 def markdownify(text):
 	# safe_mode governs how the function handles raw HTML
-	return markdown.markdown(text, safe_mode='escape')
+	return markdown.markdown(text, extensions=[
+		'markdown.extensions.tables',
+		'markdown.extensions.codehilite',
+		'markdown.extensions.footnotes',
+	])

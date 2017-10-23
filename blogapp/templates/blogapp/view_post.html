@@ -1,0 +1,10 @@
+{% extends "blogapp/base.html" %}
+{% load render_post %}
+
+{% block title %}
+	{{ post.title }} |
+{% endblock %}
+
+{% block main_content %}
+	{% render_post post %}
+{% endblock %}

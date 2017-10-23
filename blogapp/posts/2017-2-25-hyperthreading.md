@@ -47,7 +47,7 @@ Grand Theft Auto V
 
 Open-world games are traditionally heavy on the CPU, and Rockstar Games' most recent title is no exception. Crowds of pedesetrians, extensive draw distance, and real-time streaming of terrain and texture data from disk all contribute to an excellent game that can bring even the most powerful CPU to its knees. While I used the "Low" preset here, I did crank up Extended Distance Scaling, High Detail Streaming while Flying, Population Density, Population Variety, and Distance Scaling, as they contribute even more to the CPU load.
 
-|                | HT       | noHT    |
+|                | HT On    | HT Off  |
 |----------------|----------|---------|
 | FPS            | 73.18    | 70.36   |
 | 99% Frame Time | 18.77 ms | 17.7 ms |
@@ -55,7 +55,7 @@ Open-world games are traditionally heavy on the CPU, and Rockstar Games' most re
 
 (pls excuse the graphs not lining up, Google Sheets is a pain in the ass to work with)
 
-![GTAV frame times](/assets/HT/GTAV.svg)
+![GTAV frame times](/static/img/HT/GTAV.svg)
 
 Hyperthreading caused some small, but measurable gains in mean FPS (4.00%), but a small increase in 99% frame times as well, manifesting in a "fuzzier" frame time graph (6.04%). I'm not sure what happened here, but it might be a result of only running one trial in the interest of time. The significantly increased IPC didn't really seem to affect much here.
 
@@ -64,13 +64,13 @@ HITMAN (2016)
 
 Built on their proprietary Glacier engine, IO Interactive's return to the World of Assassination features exquisitely detailed maps, huge crowds of NPCs, and an amazing lighting model. The mass number of NPCs in the Paris map in particular cause the most CPU load, [as shown by the Xbox One's more powerful CPU putting it ahead of the PS4's faster GPU in the console version](https://www.youtube.com/watch?v=WZNOFBU9zsY).
 
-|                | HT       | noHT     |
+|                | HT On    | HT Off   |
 |----------------|----------|----------|
 | FPS            | 80.43    | 68.88    |
 | 99% Frame Time | 15.90 ms | 19.05 ms |
 | IPC            | 4.92     | 3.26     |
 
-![HITMAN frame times](/assets/HT/HITMAN.svg)
+![HITMAN frame times](/static/img/HT/HITMAN.svg)
 
 HITMAN loves its threads! Multithreading increased mean FPS by 16.76% and decreased 99% frame time by 16.53%, which is easily visible in the graphs as being much less noisy with HT on. IO's done a great job of designing its engine to scale with high thread count, and this densely-populated map makes the most of it.
 
@@ -79,13 +79,13 @@ Deus Ex: Mankind Divided
 
 Deus Ex: Mankind Divided is another Square Enix-published game, this time based on Eidos Montreal's Dawn Engine and ported to the PC by longtime partner Nixxes Software. This game's benchmark mode doesn't have nearly the scale or NPC headcount as the previous two games, so it should be interesting to contrast it with them.
 
-|                | HT       | noHT     |
+|                | HT On    | HT Off   |
 |----------------|----------|----------|
 | FPS            | 72.00    | 69.22    |
 | 99% Frame Time | 15.94 ms | 17.46 ms |
 | IPC            | 3.424    | 2.532    |
 
-![Deus Ex: Mankind Divided frame times](/assets/HT/DXMD.svg)
+![Deus Ex: Mankind Divided frame times](/static/img/HT/DXMD.svg)
 
 Activating HT boosted average FPS by 4.01%, but decreased 99% frame times by a much greater 8.70%. This change manifests itself in-game as somewhat decreased judder, though the improvement isn't as great as HITMAN's. This game doesn't seem to be as CPU-heavy as the previous two, so it makes sense that the extra threads won't help a whole lot.
 
@@ -94,10 +94,10 @@ Handbrake
 
 Perennial favorite of home theater and iPad owners alike, Handbrake is the gold standard for CPU-based video transcoding. For this test, I'll be converting the 2160p version of [Tears of Steel](https://mango.blender.org/) to 1080p H.265 at the Fast 1080p30 preset.
 
-|                | HT    | noHT  |
-|----------------|-------|-------|
-| Transcode time | 18:19 | 18:39 |
-| IPC            | 8.72  | 7.468 |
+|                | HT On | HT Off |
+|----------------|-------|--------|
+| Transcode time | 18:19 | 18:39  |
+| IPC            | 8.72  | 7.468  |
 
 
 Handbrake didn't seem to care about the extra threads much at all. Transcode times decreased by only 1.78%, within the margin of error, despite the much larger boost to IPC. My guess is each block of video data fits well within the CPU's cache, not leaving many slow main memory accesses for the secondary threads to capitalize on. The high IPC seems to agree; it's significantly above the next-highest test result, indicative of very few bubbles in the CPU pipeline.
@@ -107,7 +107,7 @@ Handbrake didn't seem to care about the extra threads much at all. Transcode tim
 
 My personal archive manager of choice comes with a built-in benchmarking mode, which generates a stream of data that is then compressed and decompressed using the LZMA algorithm. LZMA has a lot of unpredictable RAM accesses, which Hyperthreading should be able to take advantage of to great effect.
 
-|            | HT         | noHT       |
+|            | HT On      | HT Off     |
 |------------|------------|------------|
 | 7-Zip MIPS | 25807 MIPS | 19682 MIPS |
 | IPC        | 6.224      | 4.872      |
@@ -119,7 +119,7 @@ Cinebench R15
 
 While both of the previous CPU tests used integer math almost exclusively, Cinebench's raytracer relies heavily on floating-point math. I'm not sure what kind of memory access patterns are involved, so let's just run it and see what happens, shall we?
 
-|       | HT     | noHT   |
+|       | HT On  | HT Off |
 |-------|--------|--------|
 | Score | 894 cb | 691 cb |
 | IPC   | 7.008  | 5.26   |
@@ -131,7 +131,7 @@ Pbrot
 
 My self-penned Buddhabrot renderer is floating-point heavy and has a lot of uncacheable memory accesses, which I wrote extensively about [here](/2015/02/21/buddhabrot/). I used the default settings, but with 5x supersampling.
 
-|                 | HT       | noHT     |
+|                 | HT On    | HT Off   |
 |-----------------|----------|----------|
 | Completion Time | 22.803 s | 30.896 s |
 | IPC             | 7.928    | 5.832    |
