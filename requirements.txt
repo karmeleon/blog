@@ -5,3 +5,5 @@ django-sass-processor==0.5.5
 markdown==2.6.9
 python-frontmatter==0.2.1
 pygments==2.2.0
+gunicorn==19.7.1
+setproctitle==1.1.10

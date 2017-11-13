@@ -1,13 +1,7 @@
 # blog
 
 Yep, that's a blog alright!
----
 
 # Installation
 
-1. Install Python 3.6. We'll assume it's the `python` executable from here on out.
-2. 
-
-# Dev Deploy
-
-# Prod Deploy
+[This is the tutorial I used, just do what it says and you'll be going in no time](http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/).
