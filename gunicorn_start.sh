@@ -6,7 +6,7 @@ SOCKFILE=/django/run/gunicorn.sock                # we will communicte using thi
 USER=django                                       # the user to run as
 GROUP=django                                      # the group to run as
 NUM_WORKERS=9                                     # how many worker processes should Gunicorn spawn
-DJANGO_SETTINGS_MODULE=blog.settings              # which settings file should Django use
+DJANGO_SETTINGS_MODULE=blog.prod_settings         # which settings file should Django use
 DJANGO_WSGI_MODULE=blog.wsgi                      # WSGI module name
 
 echo "Starting $NAME as `whoami`"

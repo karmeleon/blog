@@ -1,5 +1,5 @@
 import os
-import * from settings
+from blog.settings import *
 
 # override for settings.py
 
