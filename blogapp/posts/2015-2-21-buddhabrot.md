@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Buddhabrot?
+date: 2015-2-21
 ---
 
 ![Buddhabrot with a maximum of 10 iterations](/static/img/Buddhabrot/buddhabrot10.png)

@@ -2,6 +2,7 @@
 layout: post
 title: Squeezing Performance out of Knockout.js
 category: knockout
+date: 2015-8-5
 ---
 
 [Knockout.js](http://knockoutjs.com) is a fantastic MVVM framework that handles observables, templating, styling, and more. It's easy to learn, but getting good performance out of it in larger apps can be difficult. Not to worry though, a few easy tweaks can make your app almost as responsive as a native app!

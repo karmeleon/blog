@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Hyperthreading in 2017
+date: 2017-2-25
 ---
 
 Hyperthreading has had a long, albeit checkered past in Intel's CPUs. Originally launched in 2002 on that year's revisions of the Pentium 4 and Xeon, it was great in theory, but a combination of an immature hardware implementation and [several games](http://www.tweakguides.com/SWB2_1.html) not [being programmed](http://www.ign.com/boards/threads/thief-keeps-crashing.85890687/) for the [pseudo-multicore CPUs](https://software.intel.com/en-us/forums/intel-moderncode-for-parallel-architectures/topic/310118) meant the initial incarnation of HT often caused more headaches than performance gains. Later revisions of the Netburst microarchitecture as well as newer, SMT-aware software eventually resolved these problems, but the feature went the way of the buffalo with the release of the Core line of CPUs in 2006. It wasn't until Nehalem in late 2008 that the feature returned, with a supposedly more mature implementation of the feature. Despite it being present on every Core m and i7 processor released since, as well as many Atoms, i3s, and i5s, plus almost all Xeons, I wasn't able to find any hard data on what kind of performance gains it brought. So naturally, I decided to gather some myself.

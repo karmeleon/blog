@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Chrome and gradients are not friends.
+date: 2015-3-2
 ---
 
 While I was making this site, I discovered that Chrome has a bug with really tall gradients. The beveled corner effect I have on here is done like this:

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: I take games way too seriously
+date: 2015-5-18
 ---
 
 ![Klondike is hard](/static/img/klondike.png)
