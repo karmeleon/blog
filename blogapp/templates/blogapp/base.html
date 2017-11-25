@@ -1,6 +1,7 @@
 {% load sass_tags %}
 
-<html lang="en-US">
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
 	<head>
 		<meta charset="utf-8"/>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -23,7 +24,12 @@
 		<!-- stylesheets -->
 		<link href='https://fonts.googleapis.com/css?family=Khand:400,600' rel='stylesheet' type='text/css'>
 		<link href="{% sass_src 'scss/site.scss' %}" type="text/css" rel="stylesheet">
-		<!-- TODO: SEO stuff -->
+		<!-- begin SEO stuff -->
+		<meta property="og:url" content="{{ request.get_full_path }}" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:site_name" content="sha.wn.zone" />
+		{% block additional_seo %}{% endblock %}
+		<!-- end SEO stuff -->
 	</head>
 	<body>
 		<header>

@@ -2,6 +2,11 @@
 {% load render_preview %}
 {% load render_pagination %}
 
+{% block additional_seo %}
+	<meta property="og:title" content="{{ post.title }}" />
+	<meta property="og:description" content="It's a tech blog, what more do you want?" />
+{% endblock %}
+
 {% block main_content %}
 	{% for post in posts %}
 		{% render_preview post %}

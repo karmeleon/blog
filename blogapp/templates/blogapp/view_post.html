@@ -5,6 +5,63 @@
 	{{ post.title }} |
 {% endblock %}
 
+{% block additional_seo %}
+	<meta property="og:title" content="{{ post.title }}" />
+	<meta property="og:type" content="article" />
+	<meta property="article:published_time" content="{{ post.date | date:'c' }}" />
+	<meta property="article:modified_time" content="{{ post.date | date:'c' }}" />
+	<meta property="article:author" content="https://www.facebook.com/karmeleonnn" />
+	<meta property="article:author" content="https://twitter.com/karmeleonnn" />
+	<meta property="article:author" content="https://www.linkedin.com/in/shawn-walton-7582838a/" />
+	<meta property="article:section" content="technology" />
+	<script type="application/ld+json">
+		{
+			"@context": "http://schema.org/",
+			"@type": "BlogPosting",
+			"articleBody": "{{ post.content }}",
+			"speakable": {
+				"@type": "SpeakableSpecification",
+				"cssSelector": "article"
+			},
+			"author": {
+				"@type": "Person",
+				"alumniOf": {
+					"@type": "EducationalOrganization",
+					"name": "University of Illinois at Urbana-Champaign"
+				},
+				"birthDate": "1993-11-17",
+				"email": "sh@wn.zone",
+				"familyName": "Walton",
+				"gender": "male",
+				"givenName": "Shawn",
+				"homeLocation": "San Francisco, CA",
+				"jobTitle": "Software Engineer",
+				"name": "Shawn Walton",
+				"nationality": "United States of America",
+				"worksFor": {
+					"@type": "Organization",
+					"name": "Yelp, Inc"
+				}
+			},
+			"dateCreated": "{{ post.date | date:'c' }}",
+			"dateModified": "{{ post.date | date:'c' }}",
+			"datePublished": "{{ post.date | date:'c' }}",
+			"headline": "{{ post.title }}",
+			"inLanguage": "en_US",
+			"image": "https://sha.wn.zone/static/img/logo.png",
+			"mainEntityOfPage": "{{ request.get_full_path }}",
+			"publisher": {
+				"@type": "Organization",
+				"name": "sha.wn.zone",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://sha.wn.zone/static/img/logo.png"
+				}
+			}
+		}
+	</script>
+{% endblock %}
+
 {% block main_content %}
 	{% render_post post %}
 {% endblock %}
