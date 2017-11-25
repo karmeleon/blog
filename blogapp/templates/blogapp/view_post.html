@@ -8,6 +8,8 @@
 {% block additional_seo %}
 	<meta property="og:title" content="{{ post.title }}" />
 	<meta property="og:type" content="article" />
+	<meta property="og:image" content="{{ post.featured_image }}" />
+	<meta property="og:description" content="{{ post.description }}" />
 	<meta property="article:published_time" content="{{ post.date | date:'c' }}" />
 	<meta property="article:modified_time" content="{{ post.date | date:'c' }}" />
 	<meta property="article:author" content="https://www.facebook.com/karmeleonnn" />
@@ -48,7 +50,7 @@
 			"datePublished": "{{ post.date | date:'c' }}",
 			"headline": "{{ post.title }}",
 			"inLanguage": "en_US",
-			"image": "https://sha.wn.zone/static/img/logo.png",
+			"image": "{{ post.featured_image }}",
 			"mainEntityOfPage": "{{ request.get_full_path }}",
 			"publisher": {
 				"@type": "Organization",

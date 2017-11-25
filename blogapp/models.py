@@ -1,6 +1,8 @@
 import os
 import frontmatter
-import hashlib
+import re
+import markdown
+from pyquery import PyQuery as pq
 from django.db import models
 
 POST_PATH = 'blogapp/posts'
@@ -11,8 +13,9 @@ class Post(models.Model):
 	title = models.CharField(max_length=256)
 	preview = models.TextField()
 	content = models.TextField()
-	file_hash = models.CharField(max_length=64)
 	url_name = models.CharField(max_length=128)
+	featured_image = models.CharField(max_length=384, default='')
+	description = models.CharField(max_length=160)
 
 	class Meta:
 		ordering = ['-date']
@@ -34,14 +37,35 @@ class Post(models.Model):
 				# so just paste the entire post there.
 				post_dict['preview'] = post.content
 			
+			# Find the first image on the page
+			m = re.search('!\[.*?\]\((.*?)\)', post.content)
+			if m is not None:
+				featured_image_url = 'https://sha.wn.zone' + m.group(1)
+			else:
+				featured_image_url = ''
+			
+			# We'll use the first few sentences of the first <p> tag
+			# in the rendered markdown as the description for OG and JSON-LD
+			markup = markdown.markdown(post_dict['preview'], extensions=[
+				'markdown.extensions.tables',
+				'markdown.extensions.codehilite',
+				'markdown.extensions.footnotes',
+			])
+
+			p = pq(markup)
+			# Images are put in <p>s, so if one has an image in it, ignore it
+			eligible_paras = p('p').filter(lambda i: len(pq(this).find('img')) == 0)
+			description = eligible_paras.eq(0).text()
+
 			return cls(
 				date=post_dict['date'],
 				filename=filename,
 				title=post_dict['title'],
 				preview=post_dict['preview'],
 				content=post_dict['content'],
-				file_hash=hashlib.sha256(text.encode()).hexdigest(),
 				url_name='-'.join(os.path.splitext(filename)[0].split('-')[3:]),
+				featured_image=featured_image_url,
+				description=description,
 			)
 	
 	@property
