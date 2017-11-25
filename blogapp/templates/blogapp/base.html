@@ -15,19 +15,19 @@
 		</script>
 
 		<link rel="shortcut icon" type="image/png" href="/static/img/favicon.png"/>
-		<!-- for the three people on Earth who use RSS -->
-		{# <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml"/> #}
 		<title>{% block title %}{% endblock %} Blog.</title>
 		<!-- Color used in Chrome for Android -->
 		<meta name="theme-color" content="#808080">
+		<!-- It's responsive, yo -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- stylesheets -->
 		<link href='https://fonts.googleapis.com/css?family=Khand:400,600' rel='stylesheet' type='text/css'>
 		<link href="{% sass_src 'scss/site.scss' %}" type="text/css" rel="stylesheet">
 		<!-- begin SEO stuff -->
-		<meta property="og:url" content="{{ request.get_full_path }}" />
+		<meta property="og:url" content="https://sha.wn.zone{{ request.get_full_path }}" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:site_name" content="sha.wn.zone" />
+		<meta property="fb:app_id" content="2021111818111122" />
 		{% block additional_seo %}{% endblock %}
 		<!-- end SEO stuff -->
 	</head>
