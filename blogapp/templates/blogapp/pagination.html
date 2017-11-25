@@ -1,0 +1,22 @@
+<div class="paginator">
+	{% if current_page != 0 %}
+		{# Render the first page URL as "/" instead of "/?page=0" #}
+		{% if current_page == 1 %}
+			<a href="/">&lt;</a>
+		{% else %}
+			<a href="/?page={{ current_page | add:'-1' }}">&lt;</a>
+		{% endif %}
+	{% endif %}
+	{% for page_num in page_range %}
+		{% if page_num == current_page %}
+			<span>{{ page_num | add:'1' }}</span>
+		{% elif page_num == 0 %}
+			<a href="/">1</a>
+		{% else %}
+			<a href="/?page={{ page_num }}">{{ page_num | add:'1' }}</a>
+		{% endif %}
+	{% endfor %}
+	{% if current_page != last_page %}
+		<a href="/?page={{ current_page | add:'1' }}">&gt;</a>
+	{% endif %}
+</div>

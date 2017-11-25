@@ -244,21 +244,13 @@ section {
 	text-align: center;
 }
 
-#paginator {
+.paginator {
 	text-align: center;
 	margin-bottom: 20px;
 	font-size: 1.6em;
 	font-family: $title-font-stack;
 
-	a + a {
-		margin-left: 5px;
-	}
-
-	em + a {
-		margin-left: 5px;
-	}
-
-	a + em {
-		margin-left: 5px;
+	> * {
+		margin: 0 3px;
 	}
 }
