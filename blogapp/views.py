@@ -1,7 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.core.cache import cache
-from django.views.decorators.cache import cache_page
 
 from blogapp.models import Post
 from blogapp.named_tuples import PaginationData
@@ -9,7 +6,6 @@ from blogapp.named_tuples import PaginationData
 NUM_POSTS_PER_PAGE = 5
 
 # Create your views here.
-@cache_page(60 * 15)
 def index(request):
 	page = int(request.GET.get('page', '0'))
 	posts = list(get_results_page(page))
@@ -24,7 +20,6 @@ def index(request):
 		'pagination_data': pagination_data,
 	})
 
-@cache_page(60 * 15)
 def post(request, title):
 	return render(request, 'blogapp/view_post.html', {
 		'post': Post.objects.get(url_name=title),

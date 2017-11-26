@@ -14,3 +14,6 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
+
+# Cache for 24 hours
+CACHE_MIDDLEWARE_SECONDS = 60 * 60 * 24
