@@ -22,7 +22,7 @@ RUNDIR=$(dirname $SOCKFILE)
 test -d $RUNDIR || mkdir -p $RUNDIR
 
 # Rebuild the database
-python manage.py readposts
+python manage.py buildsite
 # Recompile SCSS
 python manage.py compilescss
 # Populate static files directory
