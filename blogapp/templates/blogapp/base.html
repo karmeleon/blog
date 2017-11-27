@@ -1,28 +1,36 @@
 {% load sass_tags %}
 
 <!DOCTYPE html>
-<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<html {% if amp %}⚡ {% endif %}lang="en-US" prefix="og: http://ogp.me/ns#">
 	<head>
 		<meta charset="utf-8"/>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109571230-1"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
+		{% if amp %}
+			<script async src="https://cdn.ampproject.org/v0.js"></script>
+			<link rel="canonical" href="{{ canonical_url }}">
+			<!-- Yummy AMP boilerplate -->
+			<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+			<style>{{ style_content | safe }}</style>
+		{% else %}
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109571230-1"></script>
+			<script>
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
 
-			gtag('config', 'UA-109571230-1');
-		</script>
-
+				gtag('config', 'UA-109571230-1');
+			</script>
+			<link href="{% sass_src 'scss/site.scss' %}" type="text/css" rel="stylesheet">
+			<link rel="amphtml" href="{{ amp_url }}">
+		{% endif %}
 		<link rel="shortcut icon" type="image/png" href="/static/img/favicon.png"/>
 		<title>{% block title %}{% endblock %} Blog.</title>
 		<!-- Color used in Chrome for Android -->
 		<meta name="theme-color" content="#808080">
 		<!-- It's responsive, yo -->
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 		<!-- stylesheets -->
 		<link href='https://fonts.googleapis.com/css?family=Khand:400,600' rel='stylesheet' type='text/css'>
-		<link href="{% sass_src 'scss/site.scss' %}" type="text/css" rel="stylesheet">
 		<!-- begin SEO stuff -->
 		<meta property="og:url" content="https://sha.wn.zone{{ request.get_full_path }}" />
 		<meta property="og:locale" content="en_US" />

@@ -29,6 +29,9 @@ ALLOWED_HOSTS = []
 
 INTERNAL_IPS = ['127.0.0.1']
 
+# The debug toolbar can interfere with some validators, so make it easily disableable
+DEBUG_TOOLBAR_ENABLED = False
+
 
 # Application definition
 
@@ -41,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'blogapp',
-    'debug_toolbar',
     'clear_cache',
 ]
 
@@ -56,8 +58,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+if DEBUG_TOOLBAR_ENABLED:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = 'blog.urls'
 

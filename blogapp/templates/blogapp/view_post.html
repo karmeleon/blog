@@ -1,5 +1,6 @@
 {% extends "blogapp/base.html" %}
 {% load render_post %}
+{% load static %}
 
 {% block title %}
 	{{ post.title }} |
@@ -57,9 +58,10 @@
 				"name": "sha.wn.zone",
 				"logo": {
 					"@type": "ImageObject",
-					"url": "https://sha.wn.zone/static/img/logo.png"
+					"url": "{% static 'img/logo.png' %}"
 				}
-			}
+			},
+			"wordcount": "{{ post.content | wordcount }}"
 		}
 	</script>
 {% endblock %}

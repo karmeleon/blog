@@ -2,10 +2,15 @@ import os
 import frontmatter
 import re
 import markdown
-from pyquery import PyQuery as pq
+import sys
+from lxml import etree
 from django.db import models
+from PIL import Image as PILImage
+from pyquery import PyQuery as pq
 
 POST_PATH = 'blogapp/posts'
+IMG_PATH = 'blogapp/static/img'
+RASTER_FILE_ENDINGS = ('png', 'jpg', 'jpeg', 'ico')
 
 class Post(models.Model):
 	date = models.DateField()
@@ -71,3 +76,51 @@ class Post(models.Model):
 	@property
 	def url(self):
 		return '/p/' + self.url_name
+
+class Image(models.Model):
+	static_path = models.CharField(max_length=128, primary_key=True)
+	width = models.IntegerField()
+	height = models.IntegerField()
+
+	@classmethod
+	def normalize_path(cls, path):
+		# replace \ with / to ease development on Windows platforms
+		return path.replace('\\', '/')
+	
+	@classmethod
+	def is_raster_format(cls, path):
+		for ending in RASTER_FILE_ENDINGS:
+			if path.endswith(ending):
+				return True
+		return False
+
+	@classmethod
+	def get_svg_size(cls, path):
+		s = etree.parse(path).getroot()
+		return s.attrib['width'], s.attrib['height']
+
+	@classmethod
+	def from_file(cls, path):
+		normalized_path = cls.normalize_path(path)
+		# figure out what the static path is
+		# remove the IMG_PATH part
+		unprefixed_path = normalized_path.replace(IMG_PATH, '')
+		static_path = '/static/img' + unprefixed_path
+		# get dimensions
+		if cls.is_raster_format(normalized_path):
+			# PIL can handle raster graphics no problem
+			with PILImage.open(normalized_path) as img:
+				width, height = img.size
+		elif normalized_path.endswith('svg'):
+			# PIL can't handle SVGs, but PyQuery can!
+			width, height = cls.get_svg_size(normalized_path)
+		else:
+			# we found some weird file, skip it
+			print(f'Couldn\'t understand ${normalized_path} as an image file, skipping', file=sys.stderr)
+			return None
+
+		return cls(
+			static_path=static_path,
+			width=width,
+			height=height,
+		)

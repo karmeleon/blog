@@ -14,14 +14,14 @@
 			<article>
 				<div class="blog-post-content">
 					{% if is_preview %}
-						{{ post.preview | markdownify | safe }}
+						{% markdownify post.preview %}
 						{% if post.preview != post.content %}
 							<div class="blog-full-post">
 								<h4><a href="{{ post.url }}">Full post ></a></h4>
 							</div>
 						{% endif %}
 					{% else %}
-						{{ post.content | markdownify | safe}}
+						{% markdownify post.content %}
 					{% endif %}
 				</div>
 			</article>
