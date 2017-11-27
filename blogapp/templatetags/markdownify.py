@@ -29,6 +29,8 @@ def amplify(html):
 		width, height = image_size(img.attr('src'))
 		amp_img.attr('width', width)
 		amp_img.attr('height', height)
+		# AMP will slurp up any other sibling elements of amp-img elements, so quarantine it
+		amp_img.wrap('<div></div>')
 		# Replace the old <img> with the new <amp-img>
 		img.replaceWith(amp_img)
 	return h.html()
