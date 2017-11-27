@@ -21,6 +21,8 @@ export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 RUNDIR=$(dirname $SOCKFILE)
 test -d $RUNDIR || mkdir -p $RUNDIR
 
+# Update venv as necessary
+pip install -r requirements.txt
 # Rebuild the database
 python manage.py buildsite
 # Recompile SCSS
