@@ -21,6 +21,13 @@ export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 RUNDIR=$(dirname $SOCKFILE)
 test -d $RUNDIR || mkdir -p $RUNDIR
 
+# Rebuild the database
+python manage.py readposts
+# Recompile SCSS
+python manage.py compilescss
+# Populate static files directory
+python manage.py collectstatic --noinput
+
 # Start your Django Unicorn
 # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
 exec gunicorn ${DJANGO_WSGI_MODULE}:application \
