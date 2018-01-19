@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>HITMAN&trade; BINGO</title>
+		<script type="text/javascript">
+			const TASKS = [
+				'Put three bodies in one bathroom',
+				'Kill all targets within ten seconds of the last one',
+				"Wear the map's meme disguise (e.g. Vampire Magician, Scarecrow) while killing at least one of the targets",
+				'Bop someone in the face with a coin in plain sight',
+				'Drown someone in a toilet',
+				"Don't use any explosives to kill a target, directly or indirectly",
+				"Kill a target with an unhideable, suspicious weapon for the disguise you're wearing (e.g. fire axe, sword)",
+				'After killing the last target, escape through the least convenient exit from your current location',
+				'Kill a target with a nonlethal weapon',
+				'After killing all targets, drag their bodies so that they are touching',
+				'Complete the mission without compromising a single disguise',
+				'Never enter a building',
+				'After killing a target, immediately teabag his or her body for at least ten seconds before fleeing',
+				'Kill every single hostile on the map',
+				'Kill every target with the same weapon',
+				'Complete the mission without uttering a single naughty word',
+				'As you kill each target, say a witty one-liner appropriate for the method of death',
+				'Use a dead body as a distraction while you kill a target',
+				"Kill enough people that at least 60% of the floor of the map's body bag room is covered by bags",
+				'Complete the mission without climbing any pipes or shimmying along any ledges (mantling is fine)',
+				'Use something dropped by one of the targets upon death to kill one of the other targets',
+				"Decide on the weapon, disguise, and area of the map (within ten meters) you'll use to kill one of the targets before you leave the spawn point",
+				'Hunt at least one wild animal',
+				'Kill a target by knocking them out, then dumping their body off a ledge',
+				'Kill two targets simultaneously with the same attack',
+				'Wear the first disguise you put on for the rest of the mission',
+				'Kill at least five people with a single explosion',
+				'Lure a single NPC at least 20 meters from their normal patrol with successive coin tosses',
+				'Break at least five panes of glass, attracting attention each time',
+				'Kill a target with a headshot from at least 50 meters away (estimated)',
+				'Compromise at least five different disguises',
+				'In a single combat alert, kill at least five guards',
+				"Finish the mission while doing a running commentary in Tommy Wiseau's voice",
+				// "Did you see what Sheikh Zanzibar did? That guy is crazy!"
+				'Kill an unarmed NPC while being visible to at least five other NPCs',
+				'Finish the mission while using less than ten total seconds of Hitman Vision',
+				'Finish the mission without using any throwing weapons',
+				'Finish the mission without punching or choking anyone',
+				'Kill a target while hanging from a ledge',
+				'With each target kill, recite a relevant verse from a religious text of your choice',
+				'Escape in a vehicle',
+				'Escape on foot',
+				'Escape while wearing your starting suit',
+				'Lure an NPC into an environmental hazard using coins',
+				"Finish the mission without using any keys, card keys, or lockpicks",
+				'Donate all three of your starting coins to the same NPC',
+				'Kill a target by dropping a body on their head',
+				"Kill a target while they're in lockdown",
+				"Kill an NPC while they're smoking",
+				'Finish the mission in under ten minutes',
+				'Vampire rules: you may not enter a building unless someone at the door specifically welcomes you in',
+				'Respond in character according to your disguise whenever an NPC says something to you',
+				"Finish the mission without picking up any items that aren't yours",
+				'Finish the mission without opening any doors',
+			];
+
+			const FREE_SPACE = 'FREE SPACE';
+
+			function renderTable() {
+				// clear out the old crap
+				const bingoBodyElem = document.querySelector('.bingo-body');
+				bingoBodyElem.innerHTML = '';
+				// make a clean copy of the array
+				const shuffledItems = Array.from(TASKS);
+				for (let i = 0; i < shuffledItems.length; i++) {
+					const swapIdx = Math.floor(Math.random() * (shuffledItems.length - i)) + i;
+					const tmp = shuffledItems[swapIdx];
+					shuffledItems[swapIdx] = shuffledItems[i];
+					shuffledItems[i] = tmp;
+				}
+
+				const rowContents = [];
+				for (let i = 0; i < 5; i++) {
+					const slice = shuffledItems.slice(i * 5, (i + 1) * 5);
+					if (i === 2) {
+						slice[2] = FREE_SPACE;
+					}
+					rowContents.push(slice);
+				}
+
+				rowContents.forEach(row => {
+					const rowElem = document.createElement('tr');
+					row.forEach(cell => {
+						const cellElem = document.createElement('td');
+						cellElem.innerText = cell;
+						cellElem.addEventListener('click', () => {
+							cellElem.classList.toggle('clicked');
+						});
+						rowElem.appendChild(cellElem);
+					});
+
+					// stick it in the tbody
+					bingoBodyElem.appendChild(rowElem);
+				});
+			}
+
+			document.onreadystatechange = renderTable;
+		</script>
+		<style>
+			html {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+
+			.hitman-logo {
+				letter-spacing: 15px;
+				border: 5px solid black;
+				padding: 6px 26px 6px 36px;
+				display: inline-block;
+			}
+
+			.smallboi {
+				font-size: 10px;
+				vertical-align: text-top;
+				line-height: 18px;
+			}
+
+			aside {
+				font-weight: lighter;
+				color: grey;
+				margin-bottom: 10px;
+				font-size: 8px;
+			}
+
+			button {
+				margin-bottom: 10px;
+			}
+
+			.clicked {
+				background-color: red;
+				color: white;
+			}
+
+			table {
+				border: 1px grey solid;
+				border-radius: 4px;
+				width: 900px;
+				border-collapse: collapse;
+				margin-bottom: 10px;
+			}
+
+			th, td {
+				border: 1px grey solid;
+				padding: 6px;
+				width: 20%;
+			}
+
+			/* free space */
+			tr:nth-child(3) td:nth-child(3) {
+				background-color: red;
+				color: white;
+				font-family: Papyrus;
+				text-align: center;
+				font-weight: bold;
+			}
+
+			th {
+				/* web safe fonts lol */
+				font-family: 'Comic Sans MS';
+			}
+		</style>
+	</head>
+	<body>
+		<h1>
+			<span class="hitman-logo">
+				HITMAN<span class="smallboi">&trade;</span> BINGO
+			</span>
+		</h1>
+		<button onclick="renderTable()">Reroll</button>
+		<table>
+			<thead>
+				<tr>
+					<th>B</th>
+					<th>I</th>
+					<th>N</th>
+					<th>G</th>
+					<th>O</th>
+				</tr>
+			</thead>
+			<tbody class="bingo-body">
+			</tbody>
+		</table>
+		<noscript>
+			You're gonna need JS enabled for this level of fun, son.
+		</noscript>
+		<p>It's map-agnostic, so it should be possible (but potentially very difficult) to get bingo on every map. Also, quick disclaimer, I haven't actually played any of these. There's a good chance some of them are damn near impossible. But such is the life of the world's greatest hitman.</p>
+		<aside>I wrote this on an international flight instead of sleeping, cut me some slack.</aside>
+	</body>
+</html>

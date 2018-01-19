@@ -41,6 +41,9 @@ def amp_post(request, title):
 		'style_content': get_style_content(),
 	})
 
+def hitman(request):
+	return render(request, 'hitman/hitman.html')
+
 def get_total_number_of_posts():
 	return Post.objects.all().count()
 
