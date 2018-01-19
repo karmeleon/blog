@@ -144,3 +144,4 @@ $RECYCLE.BIN/
 # use `python manage.py collectstatic` to generate this as necessary
 static/**
 blogapp/static/scss/site.css
+db.sqlite3
