@@ -1,4 +1,5 @@
 {% load sass_tags %}
+{% load render_triangle_square %}
 
 <!DOCTYPE html>
 <html {% if amp %}⚡ {% endif %}lang="en-US" prefix="og: http://ogp.me/ns#">
@@ -41,6 +42,7 @@
 	</head>
 	<body>
 		<header>
+			{% render_triangle_square %}
 			<h1><a href="/">Blog.</a></h1>
 			<h2>A blog where I talk about code things.</h2>
 		</header>

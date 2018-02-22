@@ -1,0 +1,146 @@
+// the triangle square logo thingy
+
+$sqrt-2: 1.41421356237;
+
+// the side length of a single .square (group of 4 tris)
+$inner-square-width: 30px;
+// the thickness of the borders that give the square its triangles
+$border-thickness: $inner-square-width / 2;
+// the number of .squares in each dimension that make up the .outer-square
+$num-squares: 3;
+// the width of the .outer-square
+$outer-square-width: $inner-square-width * $num-squares;
+// the width of the container (given that it's rotated 45 degrees)
+$container-width: $outer-square-width * $sqrt-2;
+// how much we need to nudge the .outer-square down and to the left to correctly
+// fit within the .triangle-square-container
+$outer-square-margin: ($container-width - $outer-square-width) / 2;
+
+// how long to delay successive animation starts
+$animation-delay-step: .25s;
+// how long the last step animates for
+$animation-final-length: .75s;
+// how long the longest animation lasts
+$animation-longest-length: $animation-delay-step * $num-squares + $animation-final-length;
+
+@keyframes square-set-slide-in {
+	from {
+		transform: translateY(-100px);
+		opacity: 0;
+	}
+
+	to {
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+
+// animation-delay delays the start of the animation, but it does so by not playing the animation
+// at all until it's scheduled to start, which leaves the element in its final state until that point.
+// this animation is played to hide the rows before they start sliding in.
+@keyframes hide {
+	from {
+		opacity: 0;
+	}
+	
+	to {
+		opacity: 0;
+	}
+}
+
+.triangle-square-container {
+	width: $container-width;
+	height: $container-width;
+	margin: 0 auto;
+
+	.outer-square {
+		width: $outer-square-width;
+		height: $outer-square-width;
+		transform: rotate(45deg);
+		position: relative;
+		left: $outer-square-margin;
+		top: $outer-square-margin;
+	}
+
+	.square-rows,
+	.square-columns {
+		position: absolute;
+	}
+	
+	.square-columns {
+		transform: rotate(-90deg);
+	}
+
+	.square {
+		float: left;
+		width: $inner-square-width;
+		height: $inner-square-width;
+		border: $border-thickness solid transparent;
+	}
+
+	@function square-color($random-number) {
+		@return transparentize(black, $random-number);
+	}
+
+	@function randomly-vary-number($number, $variance-factor) {
+		@return $number * (1 + $variance-factor * (random() * 2 - 1));
+	}
+
+	@mixin square-animation-for-side($random-number, $side) {
+		$animation-name: square-animation-#{$side}-#{$random-number};
+		$base-transparency: random() * 0.4 + 0.35;
+		$base-color: square-color($base-transparency);
+		
+		@keyframes #{$animation-name} {
+			0% {
+				border-#{$side}-color: $base-color;
+			}
+
+			@for $stop from 1 through 3 {
+				#{randomly-vary-number(25 * $stop, 0.3) * 1%} {
+					border-#{$side}-color: square-color(randomly-vary-number($base-transparency, 0.1));
+				}
+			}
+
+			100% {
+				border-#{$side}-color: $base-color;
+			}
+		}
+
+		border-#{$side}-color: $base-color;
+		animation: randomly-vary-number(3, 0.5) * 1s linear $animation-longest-length $animation-name;
+	}
+
+	@mixin random-squares() {
+		@for $i from 1 through $num-squares + 1 {
+			.square:nth-child(#{$i}) {
+				// not guaranteed to be totally unique, but close enough
+				$animation-number: random(1000) + $i * 1000;
+
+				@include square-animation-for-side($animation-number, 'left');
+				@include square-animation-for-side($animation-number, 'right');
+
+				animation-iteration-count: infinite;
+			}
+		}
+	}
+
+	// give the squares some compile-time random colors as well as animation delays
+	@for $i from 1 through $num-squares + 1 {
+		.square-rows {
+			.square-set:nth-child(#{$i}) {
+				$delay: $animation-delay-step * ($num-squares + 1 - $i);
+				animation: $animation-longest-length - $delay cubic-bezier(0.25, 0.46, 0.45, 0.94) $delay square-set-slide-in, $delay hide;
+				@include random-squares();
+			}
+		}
+
+		.square-columns {
+			.square-set:nth-child(#{$i}) {
+				$delay: $animation-delay-step * ($num-squares + 1 - $i);
+				animation: $animation-longest-length - $delay cubic-bezier(0.25, 0.46, 0.45, 0.94) $delay square-set-slide-in, $delay hide;
+				@include random-squares();
+			}
+		}
+	}
+}

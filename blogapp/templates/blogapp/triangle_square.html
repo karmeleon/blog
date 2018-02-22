@@ -1,0 +1,22 @@
+<div class="triangle-square-container">
+	<div class="outer-square">
+		<div class="square-rows">
+			{% for _ in squares_per_side %}
+				<div class="square-set">
+					{% for _ in squares_per_side %}
+						<div class="square"></div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+		<div class="square-columns">
+			{% for _ in squares_per_side %}
+				<div class="square-set">
+					{% for _ in squares_per_side %}
+						<div class="square"></div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
