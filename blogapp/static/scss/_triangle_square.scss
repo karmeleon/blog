@@ -1,4 +1,6 @@
-// the triangle square logo thingy
+// SCSS for the triangle/square logo at the top of the page.
+// The raw output for this file is large (somewhere around 47KB), but it compresses extremely well
+// when gzipped (down to about 6KB).
 
 $sqrt-2: 1.41421356237;
 
@@ -23,36 +25,42 @@ $animation-final-length: .75s;
 // how long the longest animation lasts
 $animation-longest-length: $animation-delay-step * $num-squares + $animation-final-length;
 
-@keyframes square-set-slide-in {
+@keyframes square-set-slide-in-left {
 	from {
-		transform: translateY(-100px);
+		transform: translate(-100px);
 		opacity: 0;
 	}
 
 	to {
-		transform: translateY(0px);
+		transform: translate(0px);
 		opacity: 1;
 	}
 }
 
-// animation-delay delays the start of the animation, but it does so by not playing the animation
-// at all until it's scheduled to start, which leaves the element in its final state until that point.
-// this animation is played to hide the rows before they start sliding in.
-@keyframes hide {
+@keyframes square-set-slide-in-right {
 	from {
+		transform: translate(100px);
 		opacity: 0;
 	}
-	
+
 	to {
-		opacity: 0;
+		transform: translate(0px);
+		opacity: 1;
 	}
 }
 
+// the outermost container
 .triangle-square-container {
 	width: $container-width;
 	height: $container-width;
 	margin: 0 auto;
 
+	a {
+		display: block;
+		height: 100%;
+	}
+
+	// the largest square visible to the user (rotated 45deg)
 	.outer-square {
 		width: $outer-square-width;
 		height: $outer-square-width;
@@ -62,8 +70,14 @@ $animation-longest-length: $animation-delay-step * $num-squares + $animation-fin
 		top: $outer-square-margin;
 	}
 
+	// direct children of .outer-square, make them absolutely positioned to keep them from taking up space
 	.square-rows,
 	.square-columns {
+		position: absolute;
+	}
+
+	// either -left or -right needs to not take any space so the other can fit in the same spot
+	.square-sets-left {
 		position: absolute;
 	}
 	
@@ -71,33 +85,47 @@ $animation-longest-length: $animation-delay-step * $num-squares + $animation-fin
 		transform: rotate(-90deg);
 	}
 
+	// the smallest element of the design. will only have one border non-transparent.
 	.square {
 		float: left;
+		transition: transform .5s;
 		width: $inner-square-width;
 		height: $inner-square-width;
 		border: $border-thickness solid transparent;
 	}
 
-	@function square-color($random-number) {
-		@return transparentize(black, $random-number);
+	// generate a color for a square
+	@function square-color($transparency) {
+		@return transparentize(black, clamp($transparency, 0, 1));
 	}
 
+	// simple clamp function (why isn't this in the SCSS stdlib?)
+	@function clamp($value, $min, $max) {
+		@return if($value > $max, $max, if($value < $min, $min, $value));
+	}
+
+	// randomly increase/decrease a $number by at most $variance-factor times
 	@function randomly-vary-number($number, $variance-factor) {
 		@return $number * (1 + $variance-factor * (random() * 2 - 1));
 	}
 
+	// compute the name of an animation for a square
+	@function animation-name($animation-number, $side) {
+		@return square-animation-#{$side}-#{$animation-number};
+	}
+
+	// generate the keyframes for a single square
 	@mixin square-animation-for-side($random-number, $side) {
-		$animation-name: square-animation-#{$side}-#{$random-number};
-		$base-transparency: random() * 0.4 + 0.35;
+		$base-transparency: random() * 0.4 + 0.5;
 		$base-color: square-color($base-transparency);
 		
-		@keyframes #{$animation-name} {
+		@keyframes #{animation-name($random-number, $side)} {
 			0% {
 				border-#{$side}-color: $base-color;
 			}
 
 			@for $stop from 1 through 3 {
-				#{randomly-vary-number(25 * $stop, 0.3) * 1%} {
+				#{percentage(randomly-vary-number(.25 * $stop, 0.15))} {
 					border-#{$side}-color: square-color(randomly-vary-number($base-transparency, 0.1));
 				}
 			}
@@ -106,40 +134,84 @@ $animation-longest-length: $animation-delay-step * $num-squares + $animation-fin
 				border-#{$side}-color: $base-color;
 			}
 		}
-
-		border-#{$side}-color: $base-color;
-		animation: randomly-vary-number(3, 0.5) * 1s linear $animation-longest-length $animation-name;
 	}
 
-	@mixin random-squares() {
+	// generate all animations and colors for a single square
+	@mixin squares($side, $set-num) {
 		@for $i from 1 through $num-squares + 1 {
 			.square:nth-child(#{$i}) {
+				// determine how long we have to delay
+				$delay: $animation-delay-step * ($num-squares + 1 - $i - $set-num);
+				// make fade in animation
+				$fade-in-animation: $animation-longest-length - $delay cubic-bezier(0.25, 0.46, 0.45, 0.94) $delay 1 normal backwards running square-set-slide-in-#{$side};
+
+
+				// figure out the colors + color animations
 				// not guaranteed to be totally unique, but close enough
 				$animation-number: random(1000) + $i * 1000;
+				// generate colors and color keyframes
+				@include square-animation-for-side($animation-number, $side);
+				// make color animation
+				$color-animation: randomly-vary-number(3, 0.5) * 1s linear $animation-longest-length infinite normal both running animation-name($animation-number, $side);
 
-				@include square-animation-for-side($animation-number, 'left');
-				@include square-animation-for-side($animation-number, 'right');
 
-				animation-iteration-count: infinite;
+				// assemble final animation property
+				animation: $fade-in-animation, $color-animation;
 			}
 		}
 	}
 
-	// give the squares some compile-time random colors as well as animation delays
-	@for $i from 1 through $num-squares + 1 {
-		.square-rows {
+	@mixin square-sets($i) {
+		.square-sets-left {
 			.square-set:nth-child(#{$i}) {
-				$delay: $animation-delay-step * ($num-squares + 1 - $i);
-				animation: $animation-longest-length - $delay cubic-bezier(0.25, 0.46, 0.45, 0.94) $delay square-set-slide-in, $delay hide;
-				@include random-squares();
+				@include squares('left', $i);
 			}
+		}
+
+		.square-sets-right {
+			.square-set:nth-child(#{$i}) {
+				@include squares('right', $num-squares - $i);
+			}
+		}
+	}
+
+	// give the squares some animations
+	@for $i from 1 through $num-squares + 1 {
+		// do these individually to avoid symmetry
+		.square-rows {
+			@include square-sets($i);
 		}
 
 		.square-columns {
-			.square-set:nth-child(#{$i}) {
-				$delay: $animation-delay-step * ($num-squares + 1 - $i);
-				animation: $animation-longest-length - $delay cubic-bezier(0.25, 0.46, 0.45, 0.94) $delay square-set-slide-in, $delay hide;
-				@include random-squares();
+			@include square-sets($i);
+		}
+	}
+
+	$max-hover-expand-amount: 5px;
+	$center-coordinate: $num-squares / 2;
+
+	@mixin hover-translation-amount($i, $j, $side) {
+		// the center of the system is at ($center-coordinate, $center-coordinate)
+		// triangles are "pushed" away from the center a distance directly proportional
+		// to distance from this center.
+		$i-distance: $i - $center-coordinate - 0.5;
+		$j-distance: $j - $center-coordinate - if($side == left, 0.75, 0.25);
+		transform: translateY($i-distance * $max-hover-expand-amount * $sqrt-2) translateX($j-distance * $max-hover-expand-amount * $sqrt-2);
+	}
+
+	// expand the triangles a little bit when the box is hovered
+	&:hover {
+		@for $i from 1 through $num-squares + 1 {
+			@for $j from 1 through $num-squares + 1 {
+				.square-set:nth-child(#{$i}) {
+					& > .square-left:nth-child(#{$j}) {
+						@include hover-translation-amount($i, $j, left);
+					}
+					
+					& > .square-right:nth-child(#{$j}) {
+						@include hover-translation-amount($i, $j, right);
+					}
+				}
 			}
 		}
 	}

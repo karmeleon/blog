@@ -1,22 +1,46 @@
 <div class="triangle-square-container">
+	<a href="/">
 	<div class="outer-square">
 		<div class="square-rows">
-			{% for _ in squares_per_side %}
-				<div class="square-set">
-					{% for _ in squares_per_side %}
-						<div class="square"></div>
-					{% endfor %}
-				</div>
-			{% endfor %}
+			<div class="square-sets-left">
+				{% for _ in squares_per_side %}
+					<div class="square-set">
+						{% for _ in squares_per_side %}
+							<div class="square square-left"></div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+			<div class="square-sets-right">
+				{% for _ in squares_per_side %}
+					<div class="square-set">
+						{% for _ in squares_per_side %}
+							<div class="square square-right"></div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
 		<div class="square-columns">
-			{% for _ in squares_per_side %}
-				<div class="square-set">
-					{% for _ in squares_per_side %}
-						<div class="square"></div>
-					{% endfor %}
-				</div>
-			{% endfor %}
+			<div class="square-sets-left">
+				{% for _ in squares_per_side %}
+					<div class="square-set">
+						{% for _ in squares_per_side %}
+							<div class="square square-left"></div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+			<div class="square-sets-right">
+				{% for _ in squares_per_side %}
+					<div class="square-set">
+						{% for _ in squares_per_side %}
+							<div class="square square-right"></div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
+	</a>
 </div>
