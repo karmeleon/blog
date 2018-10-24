@@ -130,7 +130,7 @@ I'll admit, this one surprised me a bit. I guessed before I ran the test that it
 Pbrot
 -----
 
-My self-penned Buddhabrot renderer is floating-point heavy and has a lot of uncacheable memory accesses, which I wrote extensively about [here](/2015/02/21/buddhabrot/). I used the default settings, but with 5x supersampling.
+My self-penned Buddhabrot renderer is floating-point heavy and has a lot of uncacheable memory accesses, which I wrote extensively about [here](/p/buddhabrot). I used the default settings, but with 5x supersampling.
 
 |                 | HT On    | HT Off   |
 |-----------------|----------|----------|
