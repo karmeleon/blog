@@ -145,3 +145,5 @@ $RECYCLE.BIN/
 static/**
 blogapp/static/scss/site.css
 db.sqlite3
+data/**
+init-letsencrypt.sh
