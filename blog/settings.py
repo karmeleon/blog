@@ -25,13 +25,12 @@ SECRET_KEY = 'a=r6ei+paayc(^!$%r=6_4y$%34i-#j50$s&67u3!my_y$=2rz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ['127.0.0.1']
 
 # The debug toolbar can interfere with some validators, so make it easily disableable
 DEBUG_TOOLBAR_ENABLED = False
-
 
 # Application definition
 

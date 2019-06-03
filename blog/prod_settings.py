@@ -5,9 +5,9 @@ from blog.settings import *
 
 DEBUG = False
 
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = 'who cares I dont use any feautes that need one'
 
-ALLOWED_HOSTS = ['sha.wn.zone']
+ALLOWED_HOSTS = ['sha.wn.zone', 'localhost', '127.0.0.1']
 
 CACHES = {
     'default': {

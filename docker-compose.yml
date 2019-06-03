@@ -3,14 +3,23 @@ version: '3'
 services:
   web:
     build: ./
-    command: gunicorn blog.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn blog.wsgi:application --bind 0.0.0.0:8000 --log-level=debug --log-file=-
+    expose:
+      - 8000
     volumes:
-      - ./:/usr/src/app
+      - static_volume:/app/static
     ports:
-      - 8000-8000
+      - 8000:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=blog.prod_settings
   nginx:
     build: ./nginx
+    volumes:
+      - static_volume:/usr/src/app/static
     ports:
       - 1337:80
     depends_on:
       - web
+
+volumes:
+  static_volume:
