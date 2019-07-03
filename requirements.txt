@@ -3,7 +3,7 @@ django-clear-cache==0.3
 django-debug-toolbar==1.9.1
 django-memoize==2.1.0
 django-sass-processor==0.5.5
-django==1.11.20
+django==1.11.22
 gunicorn==19.7.1
 libsass==0.13.3
 markdown==2.6.9
