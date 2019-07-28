@@ -1,0 +1,393 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+	<head>
+		<meta charset="utf-8"/>
+		
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109571230-1"></script>
+			<script>
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+
+				gtag('config', 'UA-109571230-1');
+			</script>
+			<link href="/static/scss/site.css" type="text/css" rel="stylesheet">
+			<link rel="amphtml" href="">
+		
+		<link rel="shortcut icon" type="image/png" href="/static/img/favicon.png"/>
+		<title> Blog.</title>
+		<!-- Color used in Chrome for Android -->
+		<meta name="theme-color" content="#808080">
+		<!-- It's responsive, yo -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+		<!-- stylesheets -->
+		<link href='https://fonts.googleapis.com/css?family=Khand:400,600' rel='stylesheet' type='text/css'>
+		<!-- begin SEO stuff -->
+		<meta property="og:url" content="https://sha.wn.zone/" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:site_name" content="sha.wn.zone" />
+		<meta property="fb:app_id" content="2021111818111122" />
+		
+	<meta property="og:title" content="" />
+	<meta property="og:description" content="It's a tech blog, what more do you want?" />
+
+		<!-- end SEO stuff -->
+	</head>
+	<body>
+		<header>
+			<div class="triangle-square-container">
+	<a href="/">
+	<div class="outer-square">
+		<div class="square-rows">
+			<div class="square-sets-left">
+				
+					<div class="square-set">
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+					</div>
+				
+			</div>
+			<div class="square-sets-right">
+				
+					<div class="square-set">
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+					</div>
+				
+			</div>
+		</div>
+		<div class="square-columns">
+			<div class="square-sets-left">
+				
+					<div class="square-set">
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+							<div class="square square-left"></div>
+						
+					</div>
+				
+			</div>
+			<div class="square-sets-right">
+				
+					<div class="square-set">
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+					</div>
+				
+					<div class="square-set">
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+							<div class="square square-right"></div>
+						
+					</div>
+				
+			</div>
+		</div>
+	</div>
+	</a>
+</div>
+		</header>
+		<div class="main-container">
+			<div class="content-col">
+				
+	
+		
+
+<section class="blog-post">
+	<div class="blog-post-outline">
+		<div class="blog-post-container">
+			<div class="blog-post-header">
+				<h3><a href="/p/flow-expt">Flow Typing a JS Experiment Framework</a></h3>
+				<span class="blog-info-line">
+					<time datetime="2018-08-16">Aug. 16, 2018</time> 
+					
+				</span>
+				
+			</div>
+			<article>
+				<div class="blog-post-content">
+					
+						<p>Today a colleague and I were building out our frontend experiment framework. The idea was simple -- a static object, initialized on page load with a JS object containing a mapping of experiment names to cohorts, and a few convenience methods to see if the user was in a given cohort for an experiment. Easy enough, but we decided to take it a step further and use Flow to make sure of a few things:</p>
+<ol>
+<li>All experiment names passed into our convenience functions are valid.</li>
+<li>All cohort names are similarly valid.</li>
+<li>Ensure that all requests to see if the user is in cohort <code>x</code> for experiment <code>y</code> are valid; in other words, that <code>x</code> is one of the cohorts registered for experiment <code>y</code>.</li>
+<li>All of the above should be done statically by Flow.</li>
+</ol>
+<p>This turned out to be surprisingly tough. The main issue we ran into is that it wasn't possible to type one argument based on another. In Flow-ish pseudocode, I wanted something like this:</p>
+<div class="codehilite"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Determine if the user is in cohort `experimentCohort`</span>
+<span class="cm"> * of experiment `experimentName`.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">experimentInCohort</span><span class="p">(</span>
+    <span class="nx">experimentName</span><span class="o">:</span> <span class="nx">ExperimentName</span><span class="p">,</span>
+    <span class="nx">experimentCohort</span><span class="o">:</span> <span class="nx">ExperimentCohorts</span><span class="p">[</span><span class="nx">ExperimentName</span><span class="p">],</span>
+<span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{...}</span>
+</pre></div>
+
+
+<p>But of course, that's not remotely valid Flow! I'd have to think of something a little cleverer.</p>
+						
+							<div class="blog-full-post">
+								<h4><a href="/p/flow-expt">Full post ></a></h4>
+							</div>
+						
+					
+				</div>
+			</article>
+		</div>
+	</div>
+</section>
+
+	
+		
+
+<section class="blog-post">
+	<div class="blog-post-outline">
+		<div class="blog-post-container">
+			<div class="blog-post-header">
+				<h3><a href="/p/hitman-bingo">Hitman Bingo!</a></h3>
+				<span class="blog-info-line">
+					<time datetime="2018-01-19">Jan. 19, 2018</time> 
+					
+				</span>
+				
+			</div>
+			<article>
+				<div class="blog-post-content">
+					
+						<p><img alt="Screenie" src="/static/img/hitman-screencap.png" /></p>
+<p>I couldn't sleep on an international flight so I made a bingo card generator for HITMAN 2016. The code quality is garbage, it's pretty ugly, and there's no fanfare when you win, but it's cool.</p>
+<h2><a href="/hitman">Check it.</a></h2>
+						
+					
+				</div>
+			</article>
+		</div>
+	</div>
+</section>
+
+	
+		
+
+<section class="blog-post">
+	<div class="blog-post-outline">
+		<div class="blog-post-container">
+			<div class="blog-post-header">
+				<h3><a href="/p/django-blog">sha.wn.zone, now brought to you by Django!</a></h3>
+				<span class="blog-info-line">
+					<time datetime="2017-11-24">Nov. 24, 2017</time> 
+					
+				</span>
+				
+			</div>
+			<article>
+				<div class="blog-post-content">
+					
+						<p><img alt="The Raspberry Pi you loaded this site from" src="/static/img/web_scale.jpg" />
+<em>It's web-scale!</em></p>
+<p>One fine morning, I decided I should get my own domain. I have friends with snappy domains like <a href="http://denise.li">denise.li</a> and, despite my much-longer name, I was determined to snag a vanity domain for myself. After much scouring the internet, I grabbed wn.zone for the sick sh@wn.zone email address and <a href="https://sha.wn.zone">sha.wn.zone</a> URL. I set up my Github Pages site to serve from the latter and ran into some issues. Of course, that left only one option: to rewrite the site from the ground up and host it myself. That's easier, right?</p>
+<p>So now, there's a Raspberry Pi 3 on the floor in my room serving this site. VPSes are overrated when you can hit a blistering 87 RPS on a 4W passively cooled ARM chip! Comments are gone, but seeing as the only people who ever visit this site are myself and Russian SEO spammers, I don't think that's much of a loss. The code is <a href="https://github.com/karmeleon/blog">here</a> if you're interested, but it's a bog-standard barebones blog app. Feel free to copy it or something.</p>
+						
+					
+				</div>
+			</article>
+		</div>
+	</div>
+</section>
+
+	
+		
+
+<section class="blog-post">
+	<div class="blog-post-outline">
+		<div class="blog-post-container">
+			<div class="blog-post-header">
+				<h3><a href="/p/hyperthreading">Hyperthreading in 2017</a></h3>
+				<span class="blog-info-line">
+					<time datetime="2017-02-25">Feb. 25, 2017</time> 
+					
+				</span>
+				
+			</div>
+			<article>
+				<div class="blog-post-content">
+					
+						<p>Hyperthreading has had a long, albeit checkered past in Intel's CPUs. Originally launched in 2002 on that year's revisions of the Pentium 4 and Xeon, it was great in theory, but a combination of an immature hardware implementation and <a href="http://www.tweakguides.com/SWB2_1.html">several games</a> not <a href="http://www.ign.com/boards/threads/thief-keeps-crashing.85890687/">being programmed</a> for the <a href="https://software.intel.com/en-us/forums/intel-moderncode-for-parallel-architectures/topic/310118">pseudo-multicore CPUs</a> meant the initial incarnation of HT often caused more headaches than performance gains. Later revisions of the Netburst microarchitecture as well as newer, SMT-aware software eventually resolved these problems, but the feature went the way of the buffalo with the release of the Core line of CPUs in 2006. It wasn't until Nehalem in late 2008 that the feature returned, with a supposedly more mature implementation of the feature. Despite it being present on every Core m and i7 processor released since, as well as many Atoms, i3s, and i5s, plus almost all Xeons, I wasn't able to find any hard data on what kind of performance gains it brought. So naturally, I decided to gather some myself.</p>
+						
+							<div class="blog-full-post">
+								<h4><a href="/p/hyperthreading">Full post ></a></h4>
+							</div>
+						
+					
+				</div>
+			</article>
+		</div>
+	</div>
+</section>
+
+	
+		
+
+<section class="blog-post">
+	<div class="blog-post-outline">
+		<div class="blog-post-container">
+			<div class="blog-post-header">
+				<h3><a href="/p/battmon">Battmon Now Available on Google Play!</a></h3>
+				<span class="blog-info-line">
+					<time datetime="2016-07-17">July 17, 2016</time> 
+					
+				</span>
+				
+			</div>
+			<article>
+				<div class="blog-post-content">
+					
+						<p><img alt="Feature image" src="/static/img/battmon.png" /></p>
+<p>I, like most other people, have been playing a lot of Pokémon Go recently. As a result I, like most other people, am charging my phone at every possible opportunity. Sometimes it's on my desk, sometimes it's in another room with my fast charger, and sometimes it's in some far-flung corner of a car, underneath a pile of my friends' phones. I like knowing how much charge my phone has so I can plot out my Pokémon safaris, so I looked for an app that would let me use my LG G Watch to monitor my phone's battery remotely. Shockingly, no such app existed, so I took it upon myself to cook one up. The result is the (copyright-lawsuit-baitingly named) Battmon! It shows your phone's current state of charge, power source (AC/USB/Qi/battery), and battery stats like voltage, temperature, and current. <a href="https://play.google.com/store/apps/details?id=com.karmeleon.battmon">Check it out on the Play Store here</a>!</p>
+<p>The source code is available <a href="https://github.com/karmeleon/battmon">here</a>.</p>
+						
+					
+				</div>
+			</article>
+		</div>
+	</div>
+</section>
+
+	
+	<div class="paginator">
+	
+	
+		
+			<span>1</span>
+		
+	
+		
+			<a href="/?page=1">2</a>
+		
+	
+		
+			<a href="/?page=2">3</a>
+		
+	
+	
+		<a href="/?page=1">&gt;</a>
+	
+</div>
+
+
+			</div>
+			<aside class="sidebar-col">
+				<div class="sidebar-outline">
+					<div class="sidebar-content">
+						<h2 id="about">About</h2>
+						<p>This is a blog I made to talk about programming type things that I find or write. If you find the stuff here interesting, feel free to  shoot me an email at <a href="mailto:sh@wn.zone">sh@wn.zone</a> or take a look at <a href="https://karmeleon.github.io/assets/resume.html">my resumé</a> or <a href="https://www.linkedin.com/in/shawn-walton-7582838a/">LinkedIn</a>! There are a few older things on <a href="https://github.com/karmeleon">my Github</a> that I haven’t written about, so you might as well go check that out too.</p>
+						<hr>
+						<h2>Links</h2>
+						<ul>
+						<li><a href="https://play.google.com/store/apps/details?id=com.karmeleon.battmon">Android Wear battery monitor (Battmon)</a></li>
+						<li><a href="https://karmeleon.github.io/WGL-fractal/">WebGL Mandelbrot set viewer</a></li>
+						<li><a href="https://github.com/karmeleon/Pbrot/">OpenMP/OpenCL Buddhabrot set generator</a></li>
+						<li><a href="https://github.com/karmeleon/ImageRecognitionCUDA">CUDA object recognition trainer</a></li>
+						</ul>
+					</div>
+				</div>
+			</aside>
+		</div>
+	</body>
+</html>

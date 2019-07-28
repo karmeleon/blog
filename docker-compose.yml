@@ -8,15 +8,13 @@ services:
       - 8000
     volumes:
       - static_volume:/app/static
-    ports:
-      - 8000:8000
     environment:
       - DJANGO_SETTINGS_MODULE=blog.prod_settings
   nginx:
-    build: ./nginx
+    image: nginx:stable-alpine
     volumes:
       - static_volume:/usr/src/app/static
-      - ./data/nginx:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     ports:
@@ -26,7 +24,7 @@ services:
       - web
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
-    image: certbot/certbot
+    image: linuxserver/letsencrypt
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
