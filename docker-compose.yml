@@ -11,9 +11,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=blog.prod_settings
     restart: always
-    depends_on:
-      - nginx
-      - certbot
+
   nginx:
     image: nginx:stable-alpine
     volumes:
@@ -24,15 +22,20 @@ services:
     ports:
       - 80:80
       - 443:443
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     restart: always
+    depends_on:
+      - web
+      - certbot
+    links:
+      - web:web
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
   certbot:
     image: linuxserver/letsencrypt
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    restart: always
 
 volumes:
   static_volume:
