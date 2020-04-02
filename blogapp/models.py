@@ -10,7 +10,7 @@ from pyquery import PyQuery as pq
 
 POST_PATH = 'blogapp/posts'
 IMG_PATH = 'blogapp/static/img'
-RASTER_FILE_ENDINGS = ('png', 'jpg', 'jpeg', 'ico')
+RASTER_FILE_ENDINGS = ('png', 'jpg', 'jpeg', 'ico', 'webp')
 
 class Post(models.Model):
 	date = models.DateField()
