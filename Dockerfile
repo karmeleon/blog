@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 
-RUN apk add --no-cache alpine-sdk zlib-dev py3-lxml jpeg-dev libxml2-dev libxslt-dev
+RUN apk add --no-cache alpine-sdk zlib-dev py3-lxml jpeg-dev libxml2-dev libxslt-dev libwebp-dev
 EXPOSE 8000
 
 COPY requirements.txt /
