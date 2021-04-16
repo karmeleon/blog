@@ -1,7 +1,7 @@
 wheel
 django_compressor==2.2
 django-clear-cache==0.3
-django-debug-toolbar==1.9.1
+django-debug-toolbar==1.11.1
 django-memoize==2.1.0
 django-sass-processor==0.5.5
 django==1.11.28
